@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location-based AR Product with Content Uploader</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jeromeetienne/ar.js@2.0.10/aframe/build/aframe-ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+
+    <!-- AR scene -->
+    <a-scene embedded vr-mode-ui="enabled: false">
+        <!-- Add your AR content here -->
+        <a-entity gps-camera rotation-reader></a-entity>
+        <a-entity id="marker"></a-entity>
+    </a-scene>
+
+    <!-- Content uploader -->
+    <input type="file" id="fileInput" accept=".glb, .gltf" style="display: none;">
+    <button onclick="document.getElementById('fileInput').click()">Upload AR Content</button>
+
+    <!-- JavaScript code -->
+    <script>
+        // Function to update marker position based on user's GPS coordinates
+        function updateMarkerPosition(latitude, longitude) {
+            var marker = document.getElementById('marker');
+            var distance = 100; // Distance from user's location to place the marker (adjust as needed)
+            var scale = 0.1; // Scale of the marker (adjust as needed)
+
+            // Calculate position relative to user's location
+            var position = ARUtils.GeoHelpers.geopositionToVector3(latitude, longitude, distance);
+
+            // Update marker position and scale
+            marker.setAttribute('position', position.x + ' ' + position.y + ' ' + position.z);
+            marker.setAttribute('scale', scale + ' ' + scale + ' ' + scale);
+        }
+
+        // Function to get user's current location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    updateMarkerPosition(latitude, longitude);
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Function to handle file upload
+        function handleFileUpload(event) {
+            var file = event.target.files[0];
+            var marker = document.getElementById('marker');
+            var model = document.createElement('a-entity');
+
+            if (file) {
+                var modelURL = URL.createObjectURL(file);
+                model.setAttribute('gltf-model', modelURL);
+                marker.appendChild(model);
+            }
+        }
+
+        // Call getLocation function to update marker position when page loads
+        getLocation();
+
+        // Add event listener to file input
+        var fileInput = document.getElementById('fileInput');
+        fileInput.addEventListener('change', handleFileUpload);
+    </script>
+</body>
+</html>
