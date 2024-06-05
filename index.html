@@ -3,79 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Model Viewer Landing Page</title>
-    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 20px;
-        }
-        #uploaderContainer {
-            text-align: center;
-            margin-top: 20px;
-        }
-        #arToggleButton {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <title>3D Model Viewer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>AR Model Viewer Landing Page</h1>
-        <div id="uploaderContainer">
-            <h2>Upload Your 3D Model</h2>
-            <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" id="modelFileInput" accept=".glb,.usdz">
-                <button type="submit">Upload Model</button>
-            </form>
-            <h2>Upload Asset (e.g., Poster)</h2>
-            <form id="assetForm" enctype="multipart/form-data">
-                <input type="file" id="assetFileInput" accept="image/*">
-                <button type="submit">Upload Asset</button>
-            </form>
+        <h1>Welcome to the 3D Model Viewer</h1>
+        <div class="model-viewer-container">
+            <model-viewer src="Upload model..." ar ar-modes="scene-viewer webxr quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
+                <div class="progress-bar hide" slot="progress-bar">
+                    <div class="update-bar"></div>
+                </div>
+                <button slot="ar-button" id="ar-button">
+                    View in your space
+                </button>
+                <div id="ar-prompt">
+                    <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+                </div>
+            </model-viewer>
         </div>
-
-        <model-viewer id="arViewer" src="Upload model..." ar ar-modes="scene-viewer webxr quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
-            <div class="progress-bar hide" slot="progress-bar">
-                <div class="update-bar"></div>
-            </div>
-            <button slot="ar-button" id="ar-button">
-                View in your space
-            </button>
-            <div id="ar-prompt">
-                <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
-            </div>
-        </model-viewer>
+        <div class="uploader">
+            <input type="file" id="file-input" accept=".glb, .gltf">
+            <label for="file-input">Upload Model</label>
+        </div>
     </div>
-
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const fileInput = document.getElementById('modelFileInput');
-            const arViewer = document.getElementById('arViewer');
-            
-            // Check if a file was selected
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    arViewer.src = e.target.result;
-                }
-
-                reader.readAsDataURL(file);
-            } else {
-                alert('Please select a model file to upload.');
+    <script src="scripts.js"></script>
+</body>
+</html>
