@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Model Viewer</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AR Landing Page</title>
+    <!-- Add links to AR libraries like A-Frame or Three.js here -->
 </head>
 <body>
-    <input type="file" id="fileInput">
-    <button onclick="uploadModel()">Upload Model</button>
-    <div id="arViewer"></div>
+    <h1>Welcome to the AR Landing Page</h1>
+    
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" accept="image/*">
+        <button type="submit">Upload</button>
+    </form>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div id="uploadedImageContainer"></div>
+
+    <!-- Add AR elements here -->
+    
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const uploadedImageContainer = document.getElementById('uploadedImageContainer');
+            
+            // Check if a file was selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const image = document.createElement('img');
+                    image.src = e.target.result;
+                    uploadedImageContainer.appendChild(image);
+             
+
 
     
     <label for="model-upload">Upload your 3D model:</label>
