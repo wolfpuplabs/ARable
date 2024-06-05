@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markerless AR Model Viewer</title>
+    <title>AR Model Viewer Landing Page</title>
     <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
         #uploaderContainer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Markerless AR Model Viewer</h1>
+    <div class="container">
+        <h1>AR Model Viewer Landing Page</h1>
+        <div id="uploaderContainer">
+            <h2>Upload Your 3D Model</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="fileInput" accept=".glb,.usdz">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
 
-    <div id="uploaderContainer">
-        <h2>Upload Your 3D Model</h2>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" id="fileInput" accept="model/*">
-            <button type="submit">Upload</button>
-        </form>
+        <model-viewer id="arViewer" src="" alt="Uploaded Model" ar ar-modes="webxr" camera-controls></model-viewer>
     </div>
-
-    <model-viewer id="arViewer" src="" alt="Uploaded Model" ar ar-modes="webxr" camera-controls></model-viewer>
 
     <script>
         document.getElementById('uploadForm').addEventListener('submit', function(event) {
