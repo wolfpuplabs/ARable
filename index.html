@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markerless AR Model Viewer</title>
+    <script src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        #uploaderContainer {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markerless AR Model Viewer</h1>
+
+    <div id="uploaderContainer">
+        <h2>Upload Your 3D Model</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="fileInput" accept="model/*">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <model-viewer id="arViewer" src="" alt="Uploaded Model" ar ar-modes="webxr" camera-controls></model-viewer>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const arViewer = document.getElementById('arViewer');
+            
+            // Check if a file was selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    arViewer.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a file to upload.');
+            }
+        });
+    </script>
+</body>
+</html>
