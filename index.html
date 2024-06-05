@@ -38,25 +38,33 @@
         <div id="uploaderContainer">
             <h2>Upload Your 3D Model</h2>
             <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" id="fileInput" accept=".glb,.usdz">
-                <button type="submit">Upload</button>
+                <input type="file" id="modelFileInput" accept=".glb,.usdz">
+                <button type="submit">Upload Model</button>
+            </form>
+            <h2>Upload Asset (e.g., Poster)</h2>
+            <form id="assetForm" enctype="multipart/form-data">
+                <input type="file" id="assetFileInput" accept="image/*">
+                <button type="submit">Upload Asset</button>
             </form>
         </div>
 
-        <model-viewer id="arViewer" src="" alt="Uploaded Model" ar ar-modes="webxr" camera-controls></model-viewer>
-
-        <button id="arToggleButton" onclick="toggleAR()">Toggle AR</button>
+        <model-viewer id="arViewer" src="Upload model..." ar ar-modes="scene-viewer webxr quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
+            <div class="progress-bar hide" slot="progress-bar">
+                <div class="update-bar"></div>
+            </div>
+            <button slot="ar-button" id="ar-button">
+                View in your space
+            </button>
+            <div id="ar-prompt">
+                <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+            </div>
+        </model-viewer>
     </div>
 
     <script>
-        function toggleAR() {
-            const arViewer = document.getElementById('arViewer');
-            arViewer.ar = !arViewer.ar;
-        }
-
         document.getElementById('uploadForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const fileInput = document.getElementById('fileInput');
+            const fileInput = document.getElementById('modelFileInput');
             const arViewer = document.getElementById('arViewer');
             
             // Check if a file was selected
@@ -70,9 +78,4 @@
 
                 reader.readAsDataURL(file);
             } else {
-                alert('Please select a file to upload.');
-            }
-        });
-    </script>
-</body>
-</html>
+                alert('Please select a model file to upload.');
