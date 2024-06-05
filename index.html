@@ -1,18 +1,20 @@
-Below is a sample code that uses Google's `<model-viewer>` to create a markerless webAR viewer with an asset uploader feature:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markerless WebAR Viewer with Model-Viewer</title>
-    <script src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <title>AR Model Viewer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1>Welcome to Markerless WebAR Viewer!</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadModel()">Upload Model</button>
+    <div id="arViewer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
     
     <label for="model-upload">Upload your 3D model:</label>
     <input type="file" id="model-upload" accept=".glb, .gltf">
